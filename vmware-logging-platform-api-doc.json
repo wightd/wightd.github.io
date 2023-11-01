@@ -1,0 +1,1252 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Logging Platform REST APIs",
+    "version": "v1",
+    "description": "##     <h2>Getting Started</h2>     <p>The API is accessible over HTTPS via the `/api/search/v1` URL base path in select VMware SASE Platform deployments running software version 5.2.0.0 or later. Unless otherwise noted, readers should interpret all URL paths that appear in this document as relative paths, to which the `/api/search/v1` base path must be prepended in order to produce complete, valid URL paths. For example, to fetch edge firewall logs for a customer, a user would make an HTTP GET call to the `/api/search/v1/enterprises/{enterpriseLogicalId}/edgeFirewall` endpoint.</p> ",
+    "contact": {
+      "email": "velo-mp@vmware.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "paths": {
+    "/api/search/v1/healthcheck": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successfully performed service health check",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/healthcheckSchema"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "healthcheck",
+        "tags": [
+          "Search"
+        ],
+        "description": "API to perform service healthcheck"
+      }
+    },
+    "/api/search/v1/enterprises/{enterpriseLogicalId}/secureAccess": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Secure Access logs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/secureAccessFieldResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/httpResponseError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/httpResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/httpResponseError"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "secureAccessLogSearch",
+        "tags": [
+          "Search"
+        ],
+        "description": "API to perform search on Secure Access logs",
+        "parameters": [
+          {
+            "required": false,
+            "name": "from",
+            "in": "query",
+            "description": "Number of logs to skip in paginated results, defaults to 0",
+            "schema": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          {
+            "required": false,
+            "name": "size",
+            "in": "query",
+            "description": "Maximum number of logs to return",
+            "schema": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          {
+            "required": true,
+            "name": "enterpriseLogicalId",
+            "in": "path",
+            "description": "Unique identifier of the customer for which logs are being requested",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": true,
+            "name": "startTime",
+            "in": "query",
+            "description": "Start time of logs to search on",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": true,
+            "name": "endTime",
+            "in": "query",
+            "description": "End time of logs to search on",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "NAMESPACE",
+            "in": "query",
+            "description": "Namespace of the tunnel server pod",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "HOSTNAME",
+            "in": "query",
+            "description": "Hostname of the connected device",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "DEVICE_APP",
+            "in": "query",
+            "description": "Name of the App associated with the connection",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "CONNECTION_TYPE",
+            "in": "query",
+            "description": "Connection Type. (SOCKS TCP/UDP appears as TCP/UDP. NAT TCP/UDP appears as NAT_TCP/NAT_UDP)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "DEVICE_NAME",
+            "in": "query",
+            "description": "Device Name from which logs were generated",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "FLOW_ID",
+            "in": "query",
+            "description": "FLOW ID for the current session",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "SESSION_ID",
+            "in": "query",
+            "description": "Unique session or flow ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "CONNECTION_TIME",
+            "in": "query",
+            "description": "Connection Time",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "DEVICE_IP",
+            "in": "query",
+            "description": "Device IP Address (WIFI or 4G)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "REMOTE_HOSTNAME",
+            "in": "query",
+            "description": "Domain Name of the remote host",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "DEVICE_UID",
+            "in": "query",
+            "description": "Device unique identifier",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "CONNECTION_STATUS",
+            "in": "query",
+            "description": "Connection Status of the device",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "DEVICE_USERNAME",
+            "in": "query",
+            "description": "Username of user using the device",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "CONNECTION",
+            "in": "query",
+            "description": "Connection Family. Can be Session/Stream/Datagram",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "REMOTE_CONNECTION_STATUS",
+            "in": "query",
+            "description": "Status of the connection between Tunnel Server and the remote host",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "REMOTE_HOST_IP",
+            "in": "query",
+            "description": "IP Address of the remote host",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "REMOTE_HOST_PORT",
+            "in": "query",
+            "description": "Port of the remote host",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "SERVER_IP",
+            "in": "query",
+            "description": "Tunnel server`s IP address",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "CONNECTED",
+            "in": "query",
+            "description": "Session connection status",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "AVAILABLE",
+            "in": "query",
+            "description": "Session availability status",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "NUM_OF_ACTIVE_CONNECTIONS",
+            "in": "query",
+            "description": "Number of active connections to tunnel server",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "REMOTE_BYTES_TRANSFERRED",
+            "in": "query",
+            "description": "Number of Bytes Transferred Upstream / Number of Bytes Transferred Downstream",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "TIMESTAMP",
+            "in": "query",
+            "description": "Ingestion timestamp for the log",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "POP_NAME",
+            "in": "query",
+            "description": "PoP from where the logs originated",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/search/v1/enterprises/{enterpriseLogicalId}/edgeFirewall": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Edge Firewall logs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/firewallFieldResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/httpResponseError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/httpResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/httpResponseError"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "edgeFirewallLogSearch",
+        "tags": [
+          "Search"
+        ],
+        "description": "API to perform search on Edge Firewall logs",
+        "parameters": [
+          {
+            "required": false,
+            "name": "from",
+            "in": "query",
+            "description": "Number of logs to skip in paginated results, defaults to 0",
+            "schema": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          {
+            "required": false,
+            "name": "size",
+            "in": "query",
+            "description": "Maximum number of logs to return",
+            "schema": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          {
+            "required": true,
+            "name": "enterpriseLogicalId",
+            "in": "path",
+            "description": "Unique identifier of the customer for which logs are being requested",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": true,
+            "name": "startTime",
+            "in": "query",
+            "description": "Start time of logs to search on",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": true,
+            "name": "endTime",
+            "in": "query",
+            "description": "End time of logs to search on",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "ACTION_TAKEN",
+            "in": "query",
+            "description": "Action that was performed on the packets when the condition of the rule met (applies to the flow the packet is part of)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "RULE_ID",
+            "in": "query",
+            "description": "Unique identifier that identifies a firewall rule",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "SESSION_ID",
+            "in": "query",
+            "description": "Unique session or flow ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "SEGMENT_LOGICAL_ID",
+            "in": "query",
+            "description": "Unique identifier of the segment which the flow is part of",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "INPUT_INTERFACE",
+            "in": "query",
+            "description": "Interface name through which the packets of the flow entered the edge (applies only to the flows which was initiated from the LAN side. Empty string in case of overlay inbound flows)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "PROTOCOL",
+            "in": "query",
+            "description": "L4 protocol of the flow",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "SOURCE_IP",
+            "in": "query",
+            "description": "Source IP of the packets",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "DESTINATION_IP",
+            "in": "query",
+            "description": "Destination IP for the packets",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "SOURCE_PORT",
+            "in": "query",
+            "description": "Source port number of the session",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "DESTINATION_PORT",
+            "in": "query",
+            "description": "Destination port number of the session",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "DESTINATION",
+            "in": "query",
+            "description": "Name of the remote-end device of the session",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "DOMAIN",
+            "in": "query",
+            "description": "Domain name of the destination IP address",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "FIREWALL_POLICY_NAME",
+            "in": "query",
+            "description": "Name of the firewall policy applied to the session",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "SEGMENT_NAME",
+            "in": "query",
+            "description": "Name of the segment to which the session belongs to",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "EXTENSION_HEADER",
+            "in": "query",
+            "description": "Includes the extension header details in case of IPv6 session",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "APPLICATION",
+            "in": "query",
+            "description": "Application the firewall rule was applied. It could be of \"Any\" or an application that was selected with Differentiated Services Code Point (DSCP) flag to apply a specific firewall rule",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "SESSION_DURATION_SECS",
+            "in": "query",
+            "description": "Duration for which the session has been active",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "BYTES_SENT",
+            "in": "query",
+            "description": "Amount of data sent in bytes in the session",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "BYTES_RECEIVED",
+            "in": "query",
+            "description": "Amount of data received in bytes in the session",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "CLOSE_REASON",
+            "in": "query",
+            "description": "Reason for the session closureseReason",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "SIGNATURE_ID",
+            "in": "query",
+            "description": "Suricata signature ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "VERDICT",
+            "in": "query",
+            "description": "Tells allowed or blocked in case of IDPS rules",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "SIGNATURE",
+            "in": "query",
+            "description": "Signature name/title",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "CATEGORY",
+            "in": "query",
+            "description": "Classification description for the rule",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "RULE_VERSION",
+            "in": "query",
+            "description": "ruleVersion",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "ATTACK_SOURCE",
+            "in": "query",
+            "description": "Source IP of the attack",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "ATTACK_TARGET",
+            "in": "query",
+            "description": "Target IP for the attack",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "SEVERITY",
+            "in": "query",
+            "description": "One of the severity levels (Critical/High/Medium/Low/Suspicious) identified for the traffic after subjecting the traffic through IDPS engine",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "EDGE_LOGICAL_ID",
+            "in": "query",
+            "description": "Unique identifier for the edge",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "ENTERPRISE_LOGICAL_ID",
+            "in": "query",
+            "description": "Unique identifier for the enterprise",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "EDGE_NAME",
+            "in": "query",
+            "description": "Name of the edge that generated the log",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "IDS_ALERT",
+            "in": "query",
+            "description": "Indicates whether or not Intrusion Detection System alert was generated",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "IPS_ALERT",
+            "in": "query",
+            "description": "Indicates whether or not Intrusion Prevention System alert was generated",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "healthcheckSchema": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "description": "Version of the Search service"
+          }
+        },
+        "required": [
+          "version"
+        ],
+        "additionalProperties": false,
+        "description": "Schema for healthcheck of Search Service",
+        "title": "healthcheckSchema"
+      },
+      "fieldSearchMetaDataResponseSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "format": "float",
+            "description": "Number of logs shown per page"
+          },
+          "more": {
+            "type": "boolean",
+            "description": "Boolean for if there are more logs on the next page"
+          },
+          "nextPageLink": {
+            "type": "string",
+            "description": "Dummy pagination link, since this API does not cache results on the service"
+          },
+          "prevPageLink": {
+            "type": "string",
+            "description": "Dummy pagination link, since this API does not cache results on the service"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Meta Data for log search API response",
+        "title": "fieldSearchMetaDataResponseSchema"
+      },
+      "SecureAccessLogMessageSchema": {
+        "type": "object",
+        "properties": {
+          "deviceApp": {
+            "type": "string",
+            "description": "Name of the App associated with the connection"
+          },
+          "connectionType": {
+            "type": "string",
+            "description": "Connection Type. (SOCKS TCP/UDP appears as TCP/UDP. NAT TCP/UDP appears as NAT_TCP/NAT_UDP)"
+          },
+          "deviceName": {
+            "type": "string",
+            "description": "Device Name from which logs were generated"
+          },
+          "flowId": {
+            "type": "number",
+            "format": "float",
+            "description": "FLOW ID for the current session"
+          },
+          "sessionId": {
+            "type": "number",
+            "format": "float",
+            "description": "SESSION ID for the connected device"
+          },
+          "connectionTime": {
+            "type": "string",
+            "description": "Connection Time"
+          },
+          "deviceIP": {
+            "type": "string",
+            "description": "Device IP Address (WIFI or 4G)"
+          },
+          "remoteHostName": {
+            "type": "string",
+            "description": "Domain Name of the remote host"
+          },
+          "deviceUid": {
+            "type": "string",
+            "description": "Device unique identifier"
+          },
+          "connectionStatus": {
+            "type": "string",
+            "description": "Connection Status of the device"
+          },
+          "deviceUserName": {
+            "type": "string",
+            "description": "Username of user using the device"
+          },
+          "connection": {
+            "type": "string",
+            "description": "Connection Family. Can be Session/Stream/Datagram"
+          },
+          "remoteConnectionStatus": {
+            "type": "string",
+            "description": "Status of the connection between Tunnel Server and the remote host"
+          },
+          "remoteHostIp": {
+            "type": "string",
+            "description": "IP Address of the remote host"
+          },
+          "remoteHostPort": {
+            "type": "number",
+            "format": "float",
+            "description": "Port of the remote host"
+          },
+          "serverIP": {
+            "type": "string",
+            "description": "Tunnel server`s IP address"
+          },
+          "connected": {
+            "type": "string",
+            "description": "Session connection status"
+          },
+          "available": {
+            "type": "string",
+            "description": "Session availability status"
+          },
+          "numOfActiveConnections": {
+            "type": "number",
+            "format": "float",
+            "description": "Number of active connections to tunnel server"
+          },
+          "remoteBytesTransfered": {
+            "type": "string",
+            "description": "Number of Bytes Transferred Upstream / Number of Bytes Transferred Downstream"
+          }
+        },
+        "required": [
+          "deviceApp",
+          "connectionType",
+          "deviceName",
+          "flowId",
+          "sessionId",
+          "connectionTime",
+          "deviceIP",
+          "remoteHostName",
+          "deviceUid",
+          "connectionStatus",
+          "deviceUserName",
+          "connection",
+          "remoteConnectionStatus",
+          "remoteHostIp",
+          "remoteHostPort",
+          "serverIP",
+          "connected",
+          "available",
+          "numOfActiveConnections",
+          "remoteBytesTransfered"
+        ],
+        "additionalProperties": false,
+        "description": "Actual log message from tunnel server pod",
+        "title": "SecureAccessLogMessageSchema"
+      },
+      "secureAccessLogsFormatSchema": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "$ref": "#/components/schemas/SecureAccessLogMessageSchema"
+          },
+          "logType": {
+            "type": "string",
+            "description": "Type of the requested logs"
+          },
+          "@timestamp": {
+            "type": "string",
+            "description": "Ingestion timestamp for the log"
+          },
+          "pop": {
+            "type": "string",
+            "description": "PoP from where the logs originated"
+          }
+        },
+        "required": [
+          "message",
+          "logType",
+          "@timestamp",
+          "pop"
+        ],
+        "additionalProperties": false,
+        "description": "Source for the secure access logs document",
+        "title": "secureAccessLogsFormatSchema"
+      },
+      "secureAccessSearchDocumentSchema": {
+        "type": "object",
+        "properties": {
+          "_source": {
+            "$ref": "#/components/schemas/secureAccessLogsFormatSchema"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Schema for each Secure Access log document",
+        "title": "secureAccessSearchDocumentSchema"
+      },
+      "secureAccessFieldResponseSchema": {
+        "type": "object",
+        "properties": {
+          "metaData": {
+            "$ref": "#/components/schemas/fieldSearchMetaDataResponseSchema"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/secureAccessSearchDocumentSchema"
+            },
+            "description": "Data which contains logs for the log search response"
+          },
+          "count": {
+            "type": "number",
+            "format": "float",
+            "description": "Total log count for the log search query"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false,
+        "description": "Response schema for Secure Access logs",
+        "title": "secureAccessFieldResponseSchema"
+      },
+      "httpResponseErrorObject": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error message thrown by the search service",
+            "example": "pop(s) for vni: 1 do not exist"
+          },
+          "path": {
+            "type": "string",
+            "description": "Path for the origin of the error",
+            "example": "object.path"
+          },
+          "key": {
+            "type": "string",
+            "enum": [
+              "INTERNAL_ERROR",
+              "INVALID_PARAMS",
+              "INVALID_QUERY_PARAMS",
+              "ALREADY_EXISTS",
+              "INVALID_SEARCH_ENDPOINT",
+              "INVALID_SEARCH_INPUTS",
+              ""
+            ],
+            "description": "Error key for the message",
+            "example": "INVALID_PARAMS"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "additionalProperties": false,
+        "description": "Schema for the HTTP error object",
+        "title": "httpResponseErrorObject"
+      },
+      "httpResponseError": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/httpResponseErrorObject"
+            },
+            "description": "Array for different types of error objects"
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "INTERNAL_ERROR",
+              "INVALID_PARAMS",
+              "INVALID_QUERY_PARAMS",
+              "ALREADY_EXISTS",
+              "INVALID_SEARCH_ENDPOINT",
+              "INVALID_SEARCH_INPUTS"
+            ],
+            "description": "Error code for the message",
+            "example": "INVALID_PARAMS"
+          }
+        },
+        "required": [
+          "errors"
+        ],
+        "additionalProperties": false,
+        "description": "Schema for the HTTP error response",
+        "title": "httpResponseError"
+      },
+      "firewallLogsFormatSchema": {
+        "type": "object",
+        "properties": {
+          "@timestamp": {
+            "type": "string",
+            "description": "Firewall logs event timestamp"
+          },
+          "logType": {
+            "type": "string",
+            "description": "Type of the requested logs"
+          },
+          "enterpriseLogicalId": {
+            "type": "string",
+            "description": "Unique identifier of the customer for which logs are being requested"
+          },
+          "edgeName": {
+            "type": "string",
+            "description": "Name of the edge that generated the log"
+          },
+          "ruleId": {
+            "type": "string",
+            "description": "Unique identifier that identifies a firewall rule"
+          },
+          "edgeLogicalId": {
+            "type": "string",
+            "description": "Unique identifier for the edge"
+          },
+          "actionTaken": {
+            "type": "string",
+            "description": "Action that was performed on the packets when the condition of the rule met (applies to the flow the packet is part of)"
+          },
+          "sessionId": {
+            "type": "number",
+            "format": "float",
+            "description": "Unique session or flow ID"
+          },
+          "segmentLogicalId": {
+            "type": "string",
+            "description": "Unique identifier of the segment which the flow is part of"
+          },
+          "inputInterface": {
+            "type": "string",
+            "description": "Interface name through which the packets of the flow entered the edge (applies only to the flows which was initiated from the LAN side. Empty string in case of overlay inbound flows)"
+          },
+          "protocol": {
+            "type": "number",
+            "format": "float",
+            "description": "L4 protocol of the flow"
+          },
+          "sourceIp": {
+            "type": "string",
+            "description": "Source IP of the packets"
+          },
+          "destinationIp": {
+            "type": "string",
+            "description": "Destination IP for the packets"
+          },
+          "sourcePort": {
+            "type": "number",
+            "format": "float",
+            "description": "Source port number of the session"
+          },
+          "destinationPort": {
+            "type": "number",
+            "format": "float",
+            "description": "Destination port number of the session"
+          },
+          "destination": {
+            "type": "string",
+            "description": "Name of the remote-end device of the session"
+          },
+          "domainName": {
+            "type": "string",
+            "description": "Domain name of the destination IP address"
+          },
+          "firewallPolicyName": {
+            "type": "string",
+            "description": "Name of the firewall policy applied to the session"
+          },
+          "segmentName": {
+            "type": "string",
+            "description": "Name of the segment to which the session belongs to"
+          },
+          "extensionHeader": {
+            "type": "string",
+            "description": "Includes the extension header details in case of IPv6 session"
+          },
+          "application": {
+            "type": "string",
+            "description": "Application the firewall rule was applied. It could be of \"Any\" or an application that was selected with Differentiated Services Code Point (DSCP) flag to apply a specific firewall rule"
+          },
+          "sessionDurationSecs": {
+            "type": "number",
+            "format": "float",
+            "description": "Duration for which the session has been active"
+          },
+          "bytesSent": {
+            "type": "number",
+            "format": "float",
+            "description": "Amount of data sent in bytes in the session"
+          },
+          "bytesReceived": {
+            "type": "number",
+            "format": "float",
+            "description": "Amount of data received in bytes in the session"
+          },
+          "closeReason": {
+            "type": "string",
+            "description": "Reason for the session closureseReason"
+          },
+          "signatureId": {
+            "type": "number",
+            "format": "float",
+            "description": "Suricata signature ID"
+          },
+          "verdict": {
+            "type": "string",
+            "description": "Tells allowed or blocked in case of IDPS rules"
+          },
+          "signature": {
+            "type": "string",
+            "description": "Signature name/title"
+          },
+          "category": {
+            "type": "string",
+            "description": "Classification description for the rule"
+          },
+          "ruleVersion": {
+            "type": "number",
+            "format": "float",
+            "description": "ruleVersion"
+          },
+          "attackSource": {
+            "type": "string",
+            "description": "Source IP of the attack"
+          },
+          "attackTarget": {
+            "type": "string",
+            "description": "Target IP for the attack"
+          },
+          "severity": {
+            "type": "number",
+            "format": "float",
+            "description": "One of the severity levels (Critical/High/Medium/Low/Suspicious) identified for the traffic after subjecting the traffic through IDPS engine"
+          },
+          "idsAlert": {
+            "type": "number",
+            "format": "float",
+            "description": "Indicates whether or not Intrusion Detection System alert was generated"
+          },
+          "ipsAlert": {
+            "type": "number",
+            "format": "float",
+            "description": "Indicates whether or not Intrusion Prevention System alert was generated"
+          }
+        },
+        "required": [
+          "@timestamp",
+          "logType",
+          "enterpriseLogicalId",
+          "edgeName",
+          "ruleId",
+          "edgeLogicalId"
+        ],
+        "additionalProperties": false,
+        "description": "Source for the firewall logs document",
+        "title": "firewallLogsFormatSchema"
+      },
+      "firewallSearchDocumentSchema": {
+        "type": "object",
+        "properties": {
+          "_source": {
+            "$ref": "#/components/schemas/firewallLogsFormatSchema"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Schema for each Firewall log document",
+        "title": "firewallSearchDocumentSchema"
+      },
+      "firewallFieldResponseSchema": {
+        "type": "object",
+        "properties": {
+          "metaData": {
+            "$ref": "#/components/schemas/fieldSearchMetaDataResponseSchema"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/firewallSearchDocumentSchema"
+            },
+            "description": "Data which contains logs for the log search response"
+          },
+          "count": {
+            "type": "number",
+            "format": "float",
+            "description": "Total log count for the log search query"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false,
+        "description": "Response schema for Firewall logs",
+        "title": "firewallFieldResponseSchema"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Search",
+      "description": "This page lists a set of APIs to get different types of logs for an enterprise."
+    }
+  ]
+}
