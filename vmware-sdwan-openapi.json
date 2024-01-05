@@ -1,0 +1,28 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+  "title": "VMware SDWAN Security Copilot",
+  "version": "2022-12-15",
+  "contact": {
+    "name": "David Wight",
+    "email": "david.wight@broadcom.com",
+    "url": "https://www.vmware.com/products/sd-wan.html"
+    }
+  },
+  "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/": {
+    "get": {
+      "description": "List vmware sdwan edges in the enterprise",
+      "parameters": [
+        {
+          "required": true,
+          "name": "enterpriseLogicalId",
+          "in": "path",
+          "description": "The `logicalId` GUID for the target enterprise",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    }
+  }
+}
