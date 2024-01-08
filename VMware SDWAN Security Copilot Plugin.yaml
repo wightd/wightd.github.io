@@ -1,0 +1,14 @@
+Descriptor:
+  Name: VMware SDWAN VCO Security Copilot
+  Description: Search VMware SDWAN VCO firewall logs
+  Authorization:
+    Type: APIKey
+    Key: Authorization
+    Value: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblV1aWQiOiI4ZmQ0OGJjNi05MDNhLTRmNzYtYTZhNy1mYWZlMjlhYzJmNDQiLCJleHAiOjE3Mjk4ODkyNDMsInV1aWQiOiI0ZjY0OGQ2OC0yNjA1LTExZTktYmM1ZC0wYTZmZjc0MjQ4YmEiLCJpYXQiOjE2OTgzNTMyNTV9.86XbOlbEoYwyI7Ne_DkF2X-btnfe7d4rkH-m9OPOtoY
+    Location: Header
+
+SkillGroups:
+  - Format: API
+    Settings:
+      OpenApiSpecUrl: https://wightd.github.io/vmware-sdwan-copilot.json
+      EndpointUrl: https://vco58-usvi1.velocloud.net
