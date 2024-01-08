@@ -1,0 +1,26 @@
+---
+openapi: 3.0.0
+info:
+  title: VMware SDWAN Security Copilot
+  version: '2022-12-15'
+  contact:
+    name: David Wight
+    email: david.wight@broadcom.com
+    url: https://www.vmware.com/products/sd-wan.html
+  description: ''
+paths:
+  /list:
+    get:
+      description: Returns a list of stuff            
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
