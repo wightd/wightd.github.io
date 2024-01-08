@@ -1,6 +1,6 @@
 Descriptor:
   Name: VMware SDWAN VCO Security Copilot
-  Description: Search VMware SDWAN VCO firewall logs
+  Description: Search VMware SDWAN VCO for logs and configuration
   Authorization:
     Type: APIKey
     Key: Authorization
