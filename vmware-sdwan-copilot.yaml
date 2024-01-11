@@ -39,3 +39,21 @@ paths:
         description: The `logicalId` GUID for the target enterprise
         schema:
           type: string
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges:
+    get:
+      responses:
+        '200':
+          description: Request successfully processed
+        '401':
+          description: Unauthorized
+        '404':
+          description: Resource not found
+      operationId: getEnterpriseEdges
+      description: 'Get edges in the enterpirse'
+      parameters:
+      - required: true
+        name: enterpriseLogicalId
+        in: path
+        description: The `logicalId` GUID for the target enterprise
+        schema:
+          type: string
