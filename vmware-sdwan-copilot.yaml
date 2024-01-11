@@ -30,83 +30,12 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/ResourceNotFoundError"
-        '429':
-          description: Rate Limit Exceeded
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/RateLimitExceededError"
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/InternalServerError"
       operationId: getEnterprise
-      tags:
-      - Monitor
-      - Customers
-      description: 'Fetch a customer <br /> <br /> '
+      description: 'Get customer enterpirse data'
       parameters:
       - required: true
         name: enterpriseLogicalId
         in: path
         description: The `logicalId` GUID for the target enterprise
-        schema:
-          type: string
-      - required: false
-        name: include
-        in: query
-        description: A comma-separated list of field names corresponding to linked resources.
-          Where supported, the server will resolve resource attributes for the specified
-          resources.
-        schema:
-          type: string
-    delete:
-      responses:
-        '204':
-          description: Resource deleted successfully
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/UnAuthorized"
-        '404':
-          description: Resource not found
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ResourceNotFoundError"
-        '429':
-          description: Rate Limit Exceeded
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/RateLimitExceededError"
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/InternalServerError"
-      operationId: deleteEnterprise
-      tags:
-      - Monitor
-      - Customers
-      description: 'Delete a Customer <br /> <br /> '
-      parameters:
-      - required: true
-        name: enterpriseLogicalId
-        in: path
-        description: The `logicalId` GUID for the target enterprise
-        schema:
-          type: string
-      - required: false
-        name: include
-        in: query
-        description: A comma-separated list of field names corresponding to linked resources.
-          Where supported, the server will resolve resource attributes for the specified
-          resources.
         schema:
           type: string
