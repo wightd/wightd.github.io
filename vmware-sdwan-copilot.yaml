@@ -93,7 +93,7 @@ paths:
         description: The `logicalId` GUID for the target enterprise
         schema:
           type: string
-  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edgeFirewall:
+  /api/search/v1/enterprises/{enterpriseLogicalId}/edgeFirewall:
     get:
       responses:
         '200':
